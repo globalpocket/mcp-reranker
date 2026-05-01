@@ -1,5 +1,7 @@
+import os
 import json
 import pytest
+from unittest.mock import patch
 from mcp_reranker.server import rerank_documents
 
 def test_rerank_documents_basic():
@@ -37,3 +39,24 @@ def test_rerank_documents_empty_documents():
     # 空のリストが返ることを確認
     assert result == []
     assert len(result) == 0
+
+def test_rerank_documents_with_env_var():
+    """環境変数でモデル名が指定された場合のテスト"""
+    query = "Python programming"
+    documents = [
+        "Python is a high-level, general-purpose programming language.",
+        "Completely irrelevant text."
+    ]
+    
+    # 環境変数を設定してテスト (軽量なモデルを指定してテストを高速化)
+    with patch.dict(os.environ, {"RERANKER_MODEL_NAME": "cross-encoder/ms-marco-TinyBERT-L-2-v2"}):
+        result_str = rerank_documents(query, documents)
+        result = json.loads(result_str)
+        
+        assert len(result) == 2
+        assert "document" in result[0]
+        assert "score" in result[0]
+        
+        # 関連度の高いドキュメントが上位に来ているか
+        top_doc = result[0]["document"].lower()
+        assert "python" in top_doc

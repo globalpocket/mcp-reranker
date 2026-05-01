@@ -8,7 +8,7 @@ This server is designed to be a standalone tool that can be used by any MCP-comp
 
 - **Cross-Encoder Reranking**: Utilizes the `CrossEncoder` model from `sentence-transformers` for high-accuracy relevance scoring.
 - **Project Agnostic**: Completely independent of any specific application logic.
-- **Customizable Models**: Supports various HuggingFace models (defaults to `BAAI/bge-reranker-v2-m3`).
+- **Customizable Models**: Supports various HuggingFace models. You can configure the default model via environment variables (defaults to `BAAI/bge-reranker-v2-m3`).
 - **JSON Output**: Returns sorted results in a structured JSON format.
 
 ## Tools
@@ -21,7 +21,7 @@ Computes relevance scores for a list of documents against a given query and retu
 
 - `query` (string): The search query or the core intent to compare against.
 - `documents` (array of strings): A list of document descriptions or texts to be ranked.
-- `model_name` (string, optional): The HuggingFace model identifier. Defaults to `"BAAI/bge-reranker-v2-m3"`.
+- `model_name` (string, optional): The HuggingFace model identifier. Defaults to the `RERANKER_MODEL_NAME` environment variable or `"BAAI/bge-reranker-v2-m3"`.
 
 **Response Example:**
 A JSON-formatted string:
@@ -38,7 +38,8 @@ A JSON-formatted string:
 
 ### Running with `uvx`
 
-Add the following to your MCP configuration (e.g., `brownie_core_mcp_config.json`):
+Add the following to your MCP configuration (e.g., `brownie_core_mcp_config.json`). 
+You can customize the model used by setting the `RERANKER_MODEL_NAME` environment variable.
 
 ```json
 {
@@ -49,7 +50,10 @@ Add the following to your MCP configuration (e.g., `brownie_core_mcp_config.json
         "--from",
         "git+[https://github.com/globalpocket/mcp-reranker.git](https://github.com/globalpocket/mcp-reranker.git)",
         "mcp-reranker"
-      ]
+      ],
+      "env": {
+        "RERANKER_MODEL_NAME": "BAAI/bge-reranker-v2-m3"
+      }
     }
   }
 }

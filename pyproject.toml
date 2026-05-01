@@ -1,6 +1,6 @@
 [project]
 name = "mcp-reranker"
-version = "0.1.0"
+version = "0.1.1"
 description = "A generic MCP server for document reranking using sentence-transformers."
 requires-python = ">=3.10"
 dependencies = [

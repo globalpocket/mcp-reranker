@@ -1,3 +1,4 @@
+import os
 import json
 from typing import List, Dict
 from mcp.server.fastmcp import FastMCP
@@ -16,14 +17,14 @@ def get_reranker(model_name: str) -> CrossEncoder:
     return _rerankers[model_name]
 
 @mcp.tool()
-def rerank_documents(query: str, documents: List[str], model_name: str = "BAAI/bge-reranker-v2-m3") -> str:
+def rerank_documents(query: str, documents: List[str], model_name: str = None) -> str:
     """
     Reranks a list of documents based on their relevance to a given query.
     
     Args:
         query: The core intent or query string to compare against.
         documents: A list of document descriptions/strings to be ranked.
-        model_name: The HuggingFace model name for the CrossEncoder. Default is 'BAAI/bge-reranker-v2-m3'.
+        model_name: The HuggingFace model name for the CrossEncoder. Default is from env RERANKER_MODEL_NAME or 'BAAI/bge-reranker-v2-m3'.
         
     Returns:
         A JSON string representing a sorted list of dictionaries containing 'document' and 'score'.
@@ -31,7 +32,10 @@ def rerank_documents(query: str, documents: List[str], model_name: str = "BAAI/b
     if not documents:
         return json.dumps([])
         
-    reranker = get_reranker(model_name)
+    # model_nameが指定されていない場合は環境変数、またはデフォルト値を使用
+    actual_model_name = model_name or os.environ.get("RERANKER_MODEL_NAME", "BAAI/bge-reranker-v2-m3")
+    
+    reranker = get_reranker(actual_model_name)
     
     # 比較ペアの作成
     pairs = [[query, doc] for doc in documents]
