@@ -15,3 +15,7 @@ dev = [
 
 [project.scripts]
 mcp-reranker = "mcp_reranker.server:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
