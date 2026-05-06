@@ -4,6 +4,8 @@ A generic [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) serve
 
 This server is designed to be a standalone tool that can be used by any MCP-compatible client (such as Roo Code, Claude Desktop, or custom agents) to improve the precision of RAG (Retrieval-Augmented Generation) or to help agents make better decisions by scoring relevance between a query and multiple candidates.
 
+> 💡 **Proven in Production:** This server was extracted as a general-purpose, reusable module from the [cingulater](https://github.com/globalpocket/cingulater) project, where it is actively used and running in production.
+
 ## Features
 
 - **Cross-Encoder Reranking**: Utilizes the `CrossEncoder` model from `sentence-transformers` for high-accuracy relevance scoring.
@@ -79,7 +81,3 @@ uv sync --extra dev
 ```bash
 uv run pytest
 ```
-
-## License
-
-MIT License

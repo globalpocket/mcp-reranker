@@ -4,6 +4,8 @@
 
 このサーバーは特定のプロジェクトに依存しない独立したツールとして設計されており、Roo Code、Claude Desktop、または自作のエージェントなど、あらゆる MCP 対応クライアントから利用可能です。RAG（検索拡張生成）の精度向上や、エージェントが複数の候補から最適な回答を選択する際の補助に役立ちます。
 
+> 💡 **実運用での実績:** このサーバーは、[cingulater](https://github.com/globalpocket/cingulater) プロジェクトから汎用的に再利用可能なモジュールとして切り出されたものであり、現在も同プロジェクトに組み込まれて実際に稼働しています。
+
 ## 特徴
 
 - **Cross-Encoder による高精度な判定**: `sentence-transformers` の `CrossEncoder` を使用し、単純なベクトル検索よりも高精度な関連度スコアリングを提供します。
@@ -79,7 +81,3 @@ uv sync --extra dev
 ```bash
 uv run pytest
 ```
-
-## ライセンス
-
-MIT License
